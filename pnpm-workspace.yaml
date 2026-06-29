@@ -1,2 +1,11 @@
 packages:
   - 'packages/*'
+  - 'auth-service'
+  - 'auth-service-e2e'
+  - 'order-service'
+  - 'order-service-e2e'
+  - 'shared'
+allowBuilds:
+  '@parcel/watcher': true
+  less: true
+  unrs-resolver: true

@@ -1,21 +1,30 @@
 import { Controller } from '@nestjs/common';
 import { AppService } from './app.service';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import {
+  GrpcMethod,
+  GrpcService,
+  MessagePattern,
+  Payload,
+} from '@nestjs/microservices';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @MessagePattern({ cmd: 'validate_user' })
-  handleUserValidation(@Payload() data: { userId: number }) {
-    console.log('Auth Service received data :: ', data);
-    if (data.userId === 1) {
-      return { status: 'success', user: { id: 1, name: 'Monkey D. Luffy' } };
+  @GrpcMethod('AuthService', 'CheckUser')
+  checkUser(data: { userId: string }) {
+    if (data.userId === 'abc') {
+      return {
+        success: true,
+        message: 'User found successfully',
+        data: { id: 1, name: 'Monkey D. Luffy' },
+      };
     }
 
     return {
-      status: 'error',
-      message: 'User not found!!!!.',
+      success: false,
+      message: 'User not found',
+      data: null,
     };
   }
 }

@@ -8,4 +8,5 @@ packages:
 allowBuilds:
   '@parcel/watcher': true
   less: true
+  protobufjs: set this to true or false
   unrs-resolver: true

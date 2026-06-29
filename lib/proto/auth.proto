@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package auth;
+
+service AuthService {
+  rpc CheckUser(CheckUserRequest) returns (CheckUserResponse);
+}
+
+message CheckUserRequest {
+  string userId = 1;
+}
+
+message UserData {
+  int32 id = 1;
+  string name = 2;
+}
+
+message CheckUserResponse {
+  bool success = 1;
+  string message = 2;
+  UserData data = 3;
+}

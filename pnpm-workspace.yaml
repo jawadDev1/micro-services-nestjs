@@ -5,8 +5,14 @@ packages:
   - 'order-service'
   - 'order-service-e2e'
   - 'shared'
+  - 'payment-service'
+  - 'payment-service-e2e'
+  - 'checkout-service'
+  - 'checkout-service-e2e'
 allowBuilds:
   '@parcel/watcher': true
   less: true
-  protobufjs: set this to true or false
+  protobufjs: true
   unrs-resolver: true
+  '@swc/core': true
+  'nx': true

@@ -1,0 +1,38 @@
+services:
+  consul:
+    image: consul:1.15
+    container_name: consul
+    command: agent -server -bootstrap -ui -client=0.0.0.0
+    ports:
+      - '8500:8500'
+
+  payment-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP: payment-service
+
+    container_name: payment-service
+
+    ports:
+      - '3005:3005'
+
+    depends_on:
+      - consul
+
+  checkout-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP: checkout-service
+
+    container_name: checkout-service
+
+    ports:
+      - '3000:3000'
+
+    depends_on:
+      - consul
+      - payment-service

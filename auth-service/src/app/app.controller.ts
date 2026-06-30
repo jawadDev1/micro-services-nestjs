@@ -1,11 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { AppService } from './app.service';
-import {
-  GrpcMethod,
-  GrpcService,
-  MessagePattern,
-  Payload,
-} from '@nestjs/microservices';
+import { GrpcMethod } from '@nestjs/microservices';
 
 @Controller()
 export class AppController {

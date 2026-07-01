@@ -1,9 +1,10 @@
 import { Controller, Get } from '@nestjs/common';
+import { VaultService } from './vault.service';
 // import { AppService } from './app.service';
 
 @Controller('checkout')
 export class AppController {
-  // constructor(private readonly appService: AppService) {}
+  constructor(private readonly vaultService: VaultService) {}
 
   @Get('process')
   async processCheckout() {
@@ -11,6 +12,14 @@ export class AppController {
     return {
       status: 'success',
       message: 'Kong is working perfectly!!!!!!!!!!!',
+    };
+  }
+
+  @Get('db-config')
+  handleDBConfig() {
+    return {
+      message: 'Fetching secrets from hashicorp',
+      dbUrl: this.vaultService.getDBUrl(),
     };
   }
 }

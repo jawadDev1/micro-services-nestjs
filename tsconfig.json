@@ -29,6 +29,12 @@
     },
     {
       "path": "./checkout-service"
+    },
+    {
+      "path": "./product-service-e2e"
+    },
+    {
+      "path": "./product-service"
     }
   ]
 }

@@ -9,11 +9,15 @@ import { join } from 'node:path';
     ClientsModule.register([
       {
         name: 'AUTH_SERVICE',
-        transport: Transport.GRPC,
+        transport: Transport.KAFKA,
         options: {
-          package: 'auth',
-          protoPath: join(process.cwd(), 'lib/proto/auth.proto'),
-          url: '127.0.0.1:5005',
+          client: {
+            clientId: 'order-service',
+            brokers: ['localhost:9092'],
+          },
+          consumer: {
+            groupId: 'order-group',
+          },
         },
       },
     ]),

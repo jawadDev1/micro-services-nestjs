@@ -1,13 +1,6 @@
-import {
-  Controller,
-  Get,
-  Inject,
-  OnModuleInit,
-  Param,
-  Post,
-} from '@nestjs/common';
+import { Controller, Get, Inject, OnModuleInit, Param } from '@nestjs/common';
 import { AppService } from './app.service';
-import { type ClientGrpc } from '@nestjs/microservices';
+import { ClientKafka, type ClientGrpc } from '@nestjs/microservices';
 import { lastValueFrom, Observable } from 'rxjs';
 
 interface AuthService {
@@ -24,11 +17,25 @@ export class AppController implements OnModuleInit {
 
   constructor(
     private readonly appService: AppService,
-    @Inject('AUTH_SERVICE') private readonly authClient: ClientGrpc,
+    @Inject('AUTH_SERVICE') private readonly authClient: ClientKafka,
   ) {}
 
-  onModuleInit() {
-    this.authService = this.authClient.getService<AuthService>('AuthService');
+  async onModuleInit() {
+    await this.authClient.connect();
+  }
+
+  @Get('update-order')
+  handleUpdateOrder() {
+    const user = {
+      id: 11,
+      name: 'Eren Yeager',
+    };
+    this.authClient.emit('session_updated', user);
+
+    return {
+      message: 'Event Submitted successfully',
+      data: user,
+    };
   }
 
   @Get(':id')

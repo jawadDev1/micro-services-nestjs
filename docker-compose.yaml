@@ -60,6 +60,35 @@ services:
     ports:
       - '3000:3000'
 
-    depends_on:
-      - consul
-      - payment-service
+  kong:
+    image: kong:3.8
+
+    container_name: kong
+
+    restart: unless-stopped
+
+    environment:
+      KONG_DATABASE: 'off'
+
+      KONG_DECLARATIVE_CONFIG: /kong/declarative/kong.yaml
+
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+
+    ports:
+      - '8000:8000'
+
+      - '8001:8001'
+
+    volumes:
+      - ./kong/kong.yaml:/kong/declarative/kong.yaml
+
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'

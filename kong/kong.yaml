@@ -1,0 +1,19 @@
+_format_version: '3.0'
+
+upstreams:
+  - name: checkout-service-upstream
+    targets:
+      - target: checkout-service:3000
+        weight: 100
+      - target: checkout-service:3001
+        weight: 100
+
+services:
+  - name: checkout-service
+    url: http://checkout-service-upstream
+
+    routes:
+      - name: checkout-route
+        paths:
+          - /api/checkout
+        strip_path: false
